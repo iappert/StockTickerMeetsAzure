@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>bbv.NAntTasks</name>
+    </assembly>
+    <members>
+        <member name="T:bbv.NantTasks.CheckProjectReferences">
+            <summary>
+            Checks project references for occurrence of Debug folder in path
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.CheckProjectReferences.ExecuteTask">
+            <summary>
+            Executes the task.
+            </summary>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectReferences.ExcludeReferences">
+            <summary>
+            Gets or sets the patterns for references to be excluded.
+            </summary>
+            <value>The exclude patterns.</value>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectReferences.HintPathExists">
+            <summary>
+            Gets or sets a value indicating whether to check for hintpath.
+            </summary>
+            <value><c>true</c> to enable; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectReferences.HintPathStartsWith">
+            <summary>
+            Gets or sets a string, the hintpath should start with.
+            </summary>
+            <value>The requested start of hintpaths.</value>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectReferences.FileSet">
+            <summary>
+            Gets or sets the FileSet. Used to select the files that are checked.
+            </summary>
+            <value>The file set.</value>
+        </member>
+        <member name="T:bbv.NantTasks.NameFilterFileSet">
+            <summary>
+            The name filter file set is a file set which removes duplicates of file names which are retrieved recursively in the
+            directory to scan.
+            </summary>
+            <example>
+              <para>
+              How to define a namefilterfileset.
+              </para>
+              <code>
+            <![CDATA[
+            <namefilteredfileset basedir="somedirectory" id="filtersetname">
+            	<include name="**/Project.*.xml" />
+            	<exclude name="**/Project.*.Test.xml" />
+            </namefilteredfileset>
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              How to reference a namefilterfileset.
+              </para>
+              <code>
+            <![CDATA[
+            <target name="sometarget">
+            <sometask>
+            	<fileset refid="filtersetname"/>
+            </sometask>
+            </target>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:bbv.NantTasks.NameFilterFileSet.Scan">
+            <summary>
+            Scans the files.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.NameFilterFileSet.CreateStringCollection(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Creates the string collection from the <paramref name="fileNameMap"/>.
+            </summary>
+            <param name="fileNameMap">The file name map.</param>
+            <returns>A newly created string collection containing the values of the <paramref name="fileNameMap"/>.</returns>
+        </member>
+        <member name="M:bbv.NantTasks.NameFilterFileSet.ExchangeFileNamesProperty(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Exchanges the file names property with the <paramref name="filteredFileNames"/>.
+            </summary>
+            <param name="filteredFileNames">The filtered file names.</param>
+        </member>
+        <member name="M:bbv.NantTasks.NameFilterFileSet.FilterFileNames(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Filters the file names according to their file name.
+            </summary>
+            <remarks>The filtering process ensures that files with same name in different directories are only added once.
+            </remarks>
+            <param name="fileNames">The file names.</param>
+            <returns>A string collection containing unique file names.</returns>
+        </member>
+        <member name="T:bbv.NantTasks.XUnitProjectTask">
+            <summary>
+            Create a .xunit project file for all the test assemblies matching the specified pattern.
+            This should be created in the bin folder where your test assemblies are located so that 
+            the assemblies are within the AppDomain path.
+            The .xunit file can then be used by XUnit based tasks.
+            </summary>
+            <example>
+              <para>
+              Create a .xunit project file in output bin folder for a specified test assembly.
+              </para>
+              <code>
+                <![CDATA[
+            <xunitproject project="C:\MyApp\bin\MyApp.xunit" xml="true">
+                <fileset basedir="C:\MyApp\bin">
+                    <include name="MyApp.Tests.dll" />
+                </fileset>
+            </xunitproject>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:bbv.NantTasks.XUnitProjectTask.Initialize">
+            <summary>
+            Initializes the task.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.XUnitProjectTask.ExecuteTask">
+            <summary>
+            Build the contents of the .xunit file using the test assemblies matching this pattern.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.XUnitProjectTask.CreateXUnitProjectFile">
+            <summary>
+            Create a .xunit project file listing the test assemblies.
+            </summary>
+        </member>
+        <member name="P:bbv.NantTasks.XUnitProjectTask.TestingFileSet">
+            <summary>
+            Gets or sets the testing file set. Used to select the test assemblies to be included in the .xunit project. To use see <see cref="T:NAnt.Core.Types.FileSet"/>
+            </summary>
+            <value>The testing file set.</value>
+        </member>
+        <member name="P:bbv.NantTasks.XUnitProjectTask.ProjectFile">
+            <summary>
+            Gets or sets the xunit project file to create.
+            </summary>
+            <value>The project file.</value>
+        </member>
+        <member name="P:bbv.NantTasks.XUnitProjectTask.OutputDir">
+            <summary>
+            Gets or sets the output directory for the reports.
+            </summary>
+        </member>
+        <member name="P:bbv.NantTasks.XUnitProjectTask.Xml">
+            <summary>
+            Gets or sets a value indicating whether xml report output files should be created.
+            </summary>
+            <value><c>true</c> to create xml report; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:bbv.NantTasks.XUnitProjectTask.Html">
+            <summary>
+            Gets or sets a value indicating whether html report output files should be created.
+            </summary>
+            <value><c>true</c> to create html report; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:bbv.NantTasks.XUnitProjectTask.Nunit">
+            <summary>
+            Gets or sets a value indicating whether nunit-style xml report output files should be created.
+            </summary>
+            <value><c>true</c> to create nunit-style xml report; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:bbv.NantTasks.XmlMergeTask">
+            <summary>
+            Which which merges multiple xml files into one file.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.XmlMergeTask.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:bbv.NantTasks.XmlMergeTask"/> class.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.XmlMergeTask.ExecuteTask">
+            <summary>
+            Executes the task.
+            </summary>
+        </member>
+        <member name="P:bbv.NantTasks.XmlMergeTask.FileSet">
+            <summary>
+            Gets or sets the FileSet. Used to select the files that are merged.
+            </summary>
+            <value>The file set.</value>
+        </member>
+        <member name="P:bbv.NantTasks.XmlMergeTask.MergedFile">
+            <summary>
+            The file where the merged output must be written.
+            </summary>
+        </member>
+        <member name="P:bbv.NantTasks.XmlMergeTask.RootNode">
+            <summary>
+            The name of the root node.
+            </summary>
+        </member>
+        <member name="T:bbv.NantTasks.NUnitProjectTask">
+            <summary>
+            Create a .nunit project file for all the test assemblies matching the specified pattern.
+            This should be created in the bin folder where your test assemblies are located so that 
+            the assemblies are within the AppDomain path.
+            The .nunit file can then be used by NUnit or NCover based tasks.
+            </summary>
+            <example>
+              <para>
+              Create a .nunit project file in output bin folder for a specified test assembly.
+              </para>
+              <code>
+                <![CDATA[
+            <nunitproject project="C:\MyApp\bin\MyApp.nunit">
+                <fileset basedir="C:\MyApp\bin">
+                    <include name="MyApp.Tests.dll" />
+                </fileset>
+            </nunitproject>
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Create a .nunit project file in output bin folder with an associated App.Config file for
+              all test assemblies matching a pattern.
+              </para>
+              <code>
+                <![CDATA[
+            <nunitproject project="C:\MyApp\bin\MyApp.nunit" appConfig="C:\MyApp\bin\App.config">
+                <fileset basedir="C:\MyApp\bin">
+                    <include name="MyApp.*.Tests.dll" />
+                </fileset>
+            </nunitproject>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:bbv.NantTasks.NUnitProjectTask.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:bbv.NantTasks.NUnitProjectTask"/> class.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.NUnitProjectTask.Initialize">
+            <summary>
+            Initializes the task.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.NUnitProjectTask.ExecuteTask">
+            <summary>
+            Build the contents of the .nunit file using the test assemblies matching this pattern.
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.NUnitProjectTask.CreateNUnitProjectFile(System.String,NAnt.Core.Types.FileSet,System.String,System.String)">
+            <summary>
+            Create a .nunit project file listing the test assemblies.
+            </summary>
+            <param name="nunitProjectFileName">Full filename of the .nunit file.</param>
+            <param name="testFileSet">Fileset containing the test assemblies.</param>
+            <param name="appConfig">Optional path to App.Config file to include in project.</param>
+            <param name="appBase">Optional path to the nunit app base, when included full paths to each assembly (relative to the appbase) are included</param>
+        </member>
+        <member name="P:bbv.NantTasks.NUnitProjectTask.ProjectFile">
+            <summary>
+            Gets or sets the nunit project file to create.
+            </summary>
+            <value>The project file.</value>
+        </member>
+        <member name="P:bbv.NantTasks.NUnitProjectTask.AppConfig">
+            <summary>
+            Gets or sets an optional path to an App.Config file to be specified in the .nunit project file..
+            </summary>
+            <value>The app config.</value>
+        </member>
+        <member name="P:bbv.NantTasks.NUnitProjectTask.AppBase">
+            <summary>
+            Gets or sets an optional path to the nunit app base, when included full paths to each assembly (relative to the appbase) are included..
+            </summary>
+            <value>The app base.</value>
+        </member>
+        <member name="P:bbv.NantTasks.NUnitProjectTask.TestingFileSet">
+            <summary>
+            Gets or sets the testing file set. Used to select the test assemblies to be included in the .nunit project. To use see <see cref="T:NAnt.Core.Types.FileSet"/>
+            </summary>
+            <value>The testing file set.</value>
+        </member>
+        <member name="P:bbv.NantTasks.NUnitProjectTask.RuntimeFramework">
+            <summary>
+            Gets or sets the runtime framework.
+            </summary>
+            <value>The runtime framework.</value>
+        </member>
+        <member name="T:bbv.NantTasks.CheckProjectFile">
+            <summary>
+            Checks a project file for certain rules
+            </summary>
+        </member>
+        <member name="M:bbv.NantTasks.CheckProjectFile.ExecuteTask">
+            <summary>
+            Executes the task.
+            </summary>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectFile.ChangeCopyLocal">
+            <summary>
+            Gets or sets a value indicating whether to change copy local.
+            </summary>
+            <value><c>true</c> if change copy local; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectFile.ReferencesNotToBeCopiedLocal">
+            <summary>
+            Gets or sets the references not to be copied local.
+            </summary>
+            <value>The references not to be copied local.</value>
+        </member>
+        <member name="P:bbv.NantTasks.CheckProjectFile.FileSet">
+            <summary>
+            Gets or sets the FileSet. Used to select the files that are checked.
+            </summary>
+            <value>The file set.</value>
+        </member>
+    </members>
+</doc>
