@@ -1,1 +1,12 @@
 ﻿results/*
+
+Source/_ReSharper.*
+Source/csx
+*.user
+*.suo
+*.log
+Source/bin
+Source/obj
+Source/packages
+Source/StockTickerMvcWebRole/bin
+Source/StockTickerMvcWebRole/obj
