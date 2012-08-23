@@ -18,63 +18,37 @@
   <target name="integration-build" description="build a version for the developer before checking.">
       <property name="configuration" value="Release" />
 	  
-    <echo message="integrate" />
-      <!--call target="-internal-build" /-->
+      <call target="-internal-build" />
   </target>
 
   <!--
   Executes all the unit-tests against the compiled application.   
   -->
-  <target name="unit-tests" description="execute all units test for the solution excluding interop test"
-      depends="-create-nunit">
+    <target name="unit-tests" description="execute all units test for the solution excluding interop test"
+        depends="-create-nunit">
 
-    <echo message="run Unit tests" />
+        <echo message="run Unit tests" />
 
-    <mkdir dir="${results.dir}" />
+        <mkdir dir="${results.dir}" />
 
-    <exec program="${nunit.exe}" workingdir="${results.dir}" commandline="${nunit.project} /xml:${results.dir}/${project.name}.xml"/>
+        <exec program="${nunit.exe}" workingdir="${results.dir}" commandline="${nunit.project} /xml:${results.dir}/${project.name}.xml"/>
 
-    <nunit2report todir="${results.dir}" format="NoFrames" opendesc="true" >
-      <fileset>
-        <include name="${results.dir}/${project.name}.xml" />
-      </fileset>
-    </nunit2report>
-
-    <echo message="run MSpec" />
-    <mkdir dir="${results.dir}\Specifications" />
-    <foreach item="File" property="filename">
-      <in>
-        <items basedir="${bin.dir}">
-          <include name="**/*.Specification.dll" />
-          <exclude name="**/*.InteropSpecification.dll" />
-        </items>
-      </in>
-      <do>
-        <exec program="${mspec.exe}" commandline="--html ${results.dir}\Specifications\${path::get-file-name(filename)}.html --teamcity ${filename}" />
-      </do>
-    </foreach>
-
-  </target>
-
+        <nunit2report todir="${results.dir}" format="NoFrames" opendesc="true" >
+            <fileset>
+                <include name="${results.dir}/${project.name}.xml" />
+            </fileset>
+        </nunit2report>
+    </target>
   <target name="-internal-build" description="build a version for the developer and run all unit tests before check-in in subversion" 
-      depends="-clean, -clean-compile, -compile" 
+      depends="-clean-compile, -compile" 
   />
   
-  <target name="-clean" description="empty the result folder">
-      <mkdir dir="${results.dir}" />
-      <delete>
-          <fileset basedir="${results.dir}">
-              <include name="*.*" />
-              <exclude name="*.log" />
-          </fileset>
-      </delete>
-  </target>
-
   <target name="-clean-compile" description="delete old binaries">
       <echo message="Starting cleaning of solution" />
       <delete>
-          <fileset basedir="${bin.dir}">
-              <include name="**/*.*" />
+          <fileset basedir="${source.dir}">
+              <include name="*/bin/${configuration}/*.*" />
+              <include name="*/obj/${configuration}/*.*" />
           </fileset>
       </delete>
       <echo message="Completion cleaning of solution" />
@@ -87,20 +61,13 @@
           <property name ="Configuration" value="${configuration}" />
       </msbuild>
 
-      <msbuild project="${source.dir}/${automation.project.name}.sln" target="Rebuild" verbosity="Minimal">
-          <property name ="Configuration" value="${configuration}" />
-      </msbuild>
-
       <echo message="Completed compilation of solution" />
   </target>
 
   <target name="-create-nunit" description="generates the nunit file for the unit tests">
-      <bbv.nunitproject project="${results.dir}/${nunit.project}" appBase=".">
-          <fileset basedir="${results.dir}">
-              <include name="Release/**/*Test.dll" />
-              <exclude name="Release/**/*InteropTest.dll" />
-              <exclude name="Release/**/*UITest.dll" />
-              <exclude name="Release/**/*UserInterfaceTest.dll" />
+      <bbv.nunitproject project="${source.dir}/${nunit.project}" appBase=".">
+          <fileset basedir="${source.dir}">
+              <include name="*/bin/Release/**/*Test.dll" />
           </fileset>
       </bbv.nunitproject>
   </target>
