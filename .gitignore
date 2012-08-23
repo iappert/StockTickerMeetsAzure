@@ -7,6 +7,6 @@ Source/csx
 *.log
 Source/bin
 Source/obj
-Source/packages
+Source/packages/*/
 Source/StockTickerMvcWebRole/bin
 Source/StockTickerMvcWebRole/obj
