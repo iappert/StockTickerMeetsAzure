@@ -26,7 +26,7 @@
   -->
     <target name="package-azure" description="create package for azure deployment">
         <echo message="Starting azure package creation" />
-
+        <echo message="${directory::get-current-directory()}" />
         <msbuild project="${source.dir}/StockTickerMeetsAzure.ccproj" target="publish" >
             <property name ="Configuration" value="${configuration}" />
         </msbuild>
