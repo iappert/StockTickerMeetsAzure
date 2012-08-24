@@ -19,7 +19,20 @@
       <property name="configuration" value="Release" />
 	  
       <call target="-internal-build" />
-  </target>
+  </target>  
+  
+  <!--
+  Creates the package for Azure deployment. 
+  -->
+    <target name="package-azure" description="create package for azure deployment">
+        <echo message="Starting azure package creation" />
+
+        <msbuild project="${source.dir}/StockTickerMeetsAzure.ccproj" target="publish" >
+            <property name ="Configuration" value="${configuration}" />
+        </msbuild>
+
+        <echo message="Completed azure package creation" />
+    </target>
 
   <!--
   Executes all the unit-tests against the compiled application.   
